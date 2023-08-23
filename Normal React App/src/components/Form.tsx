@@ -9,17 +9,17 @@ import Home from "./Home";
 
 interface FormData {
   name: string;
-  phoneNo: number;
+  phoneNo: string;
   email: string;
 }
 
 const Form: React.FC = () => {
   const [formDetail, setFormDetail] = useState<FormData>({
     name: "",
-    phoneNo: 9,
+    phoneNo: "",
     email: "",
   });
-  const [isFormValid, setIsFormValid] = useState(false);
+  // const [isFormValid, setIsFormValid] = useState(false);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -33,7 +33,8 @@ const Form: React.FC = () => {
   const handleFormSubmit = () => {
     if (formDetail.name && formDetail.phoneNo && formDetail.email) {
       localStorage.setItem("formData", JSON.stringify(formDetail));
-      setIsFormValid(true);
+      console.log(formDetail);
+      // setIsFormValid(true);
       alert("Your Data had been successfully saved");
       navigate("/home");
     }
@@ -41,9 +42,9 @@ const Form: React.FC = () => {
 
   return (
     <div>
-      {isFormValid ? (
+      {/* {isFormValid ? (
         <Home />
-      ) : (
+      ) : ()} */}
         <>
           <Box
             component="form"
@@ -84,7 +85,7 @@ const Form: React.FC = () => {
             <TextField
               // error
               id="outlined-number"
-              type="number" 
+              type="number"
               label="Phone Number"
               name="phoneNo"
               value={formDetail.phoneNo}
@@ -108,7 +109,6 @@ const Form: React.FC = () => {
             </Button>
           </Box>
         </>
-      )}
     </div>
   );
 };
