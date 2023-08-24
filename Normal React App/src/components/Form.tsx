@@ -19,7 +19,7 @@ const Form: React.FC = () => {
     phoneNo: "",
     email: "",
   });
-  // const [isFormValid, setIsFormValid] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -30,11 +30,57 @@ const Form: React.FC = () => {
   };
 
   const navigate = useNavigate();
+
+  // validation -
+
+  const [nameError, setNameError] = useState("");
+  const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  const validateName = () => {
+    if (!formDetail.name) {
+      setNameError("Name is required");
+    } else {
+      setNameError("");
+    }
+  };
+
+  const validatePhoneNumber = () => {
+    if (!formDetail.phoneNo) {
+      setPhoneNumberError("Phone number is required");
+    } else if (!/^\d{10}$/.test(formDetail.phoneNo)) {
+      setPhoneNumberError("Invalid phone number");
+    } else {
+      setPhoneNumberError("");
+    }
+  };
+
+  const validateEmail = () => {
+    if (!formDetail.email) {
+      setEmailError("Email is required");
+    } else if (!/\S+@\S+\.\S+/.test(formDetail.email)) {
+      setEmailError("Invalid email address");
+    } else {
+      setEmailError("");
+    }
+  };
+
   const handleFormSubmit = () => {
-    if (formDetail.name && formDetail.phoneNo && formDetail.email) {
+    validateName();
+    validatePhoneNumber();
+    validateEmail();
+
+    if (
+      !nameError &&
+      !phoneNumberError &&
+      !emailError &&
+      formDetail.name &&
+      formDetail.phoneNo &&
+      formDetail.email
+    ) {
       localStorage.setItem("formData", JSON.stringify(formDetail));
       console.log(formDetail);
-      // setIsFormValid(true);
+      setIsFormValid(true);
       alert("Your Data had been successfully saved");
       navigate("/home");
     }
@@ -42,9 +88,9 @@ const Form: React.FC = () => {
 
   return (
     <div>
-      {/* {isFormValid ? (
+      {isFormValid ? (
         <Home />
-      ) : ()} */}
+      ) : (
         <>
           <Box
             component="form"
@@ -64,7 +110,7 @@ const Form: React.FC = () => {
               "& .MuiButton-root": {
                 marginLeft: 20,
                 width: "40ch",
-                marginTop: 8,
+                marginTop: 6,
               },
             }}
             autoComplete="off"
@@ -79,18 +125,24 @@ const Form: React.FC = () => {
               value={formDetail.name}
               onChange={handleFormChange}
               placeholder="Please Enter Your Name"
-              helperText="Enter Your Name"
+              // helperText="Enter Your Name"
+              onBlur={validateName}
+              error={!!nameError}
+              helperText={nameError}
               // required
             />
             <TextField
               // error
               id="outlined-number"
-              type="number"
+              type="text"
               label="Phone Number"
               name="phoneNo"
               value={formDetail.phoneNo}
               onChange={handleFormChange}
-              helperText="Enter Your Phone Number"
+              // helperText="Enter Your Phone Number"
+              onBlur={validatePhoneNumber}
+              error={!!phoneNumberError}
+              helperText={phoneNumberError}
               // required
             />
             <TextField
@@ -101,16 +153,33 @@ const Form: React.FC = () => {
               name="email"
               value={formDetail.email}
               onChange={handleFormChange}
-              helperText="Enter Your correct email"
+              // helperText="Enter Your correct email"
+              onBlur={validateEmail}
+              error={!!emailError}
+              helperText={emailError}
               // required
             />
-            <Button variant="contained" onClick={handleFormSubmit}>
-              Submit
+            <Button variant="contained" onClick={handleFormSubmit} style={{width: '30%', marginLeft: '35%'}}>
+              Login
             </Button>
           </Box>
         </>
+      )}
     </div>
   );
 };
 
 export default Form;
+
+
+
+
+/*
+if (formDetail.name && formDetail.phoneNo && formDetail.email) {
+  localStorage.setItem("formData", JSON.stringify(formDetail));
+  console.log(formDetail);
+  // setIsFormValid(true);
+  alert("Your Data had been successfully saved");
+  navigate("/home");
+}
+*/

@@ -1,35 +1,31 @@
-import * as React from 'react';
+import * as React from "react";
 
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup'
-
-import { NavLink } from 'react-router-dom';
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
 
 const Navbar = () => {
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [auth, setAuth] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAuth(event.target.checked);
-      };
-    
-      const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-      };
-    
-      const handleClose = () => {
-        setAnchorEl(null);
-      };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAuth(event.target.checked);
+  };
 
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <>
@@ -42,7 +38,7 @@ const Navbar = () => {
               aria-label="login switch"
             />
           }
-          label={auth ? 'Logout' : 'Login'}
+          label={auth ? "Logout" : "Login"}
         />
       </FormGroup>
       <AppBar position="static">
@@ -56,14 +52,11 @@ const Navbar = () => {
           >
             {/* <MenuIcon /> */}
           </IconButton>
-          {/* <NavLink to = "/"> */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Login 
+            Login
           </Typography>
-          {/* </NavLink> */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            JSON Data 
-            {/* <Link to = "/api" /> */}
+            JSON Data
           </Typography>
           {auth && (
             <div>
@@ -81,13 +74,13 @@ const Navbar = () => {
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 keepMounted
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                  vertical: "top",
+                  horizontal: "right",
                 }}
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
@@ -100,7 +93,17 @@ const Navbar = () => {
         </Toolbar>
       </AppBar>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
+
+
+
+/*
+import MenuIcon from '@mui/icons-material/Menu';
+import { NavLink } from 'react-router-dom';
+
+<NavLink to = "/"></NavLink>
+<Link to = "/api" />
+*/

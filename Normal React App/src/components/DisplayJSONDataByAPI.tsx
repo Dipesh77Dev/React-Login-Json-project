@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 import { Button } from "@mui/material";
-
-import { useNavigate } from "react-router-dom";
-
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+import { useNavigate, Link } from "react-router-dom";
+
+import DisplayJSONDataCheckbox from "./DisplayJSONDataCheckbox";
+import InvalidUser from "./InvalidUser";
 
 interface Posts {
   userId: number;
@@ -32,62 +34,77 @@ const DisplayJSONDataByAPI: React.FC = () => {
   const navigate = useNavigate();
 
   const Logout = () => {
-    localStorage.removeItem("formData");
-
     let logout = confirm("Are you sure you want to logout...");
-
-    const alertLogout = () => {
-      alert("You have been logged out successfully...");
-    }
-    alertLogout();
 
     if (logout) {
       navigate("/");
-      const timeout = setTimeout(alertLogout, 5000)
+      // localStorage.removeItem("formData");
+      localStorage.clear();
     } else {
       navigate("/api");
     }
   };
 
-  const nav1 = navigate('/api');
-  const nav2 = navigate('/');
-
-  const userData = JSON.parse(localStorage.getItem('formData') || '{}');
-  console.log(userData);
-  
-  if (userData.name && userData.email && userData.phoneNo) {
-    return nav1;
-  } else {
-    return nav2;
-  };
+  const getData = localStorage.getItem("formData");
 
   return (
     <>
-      <h1 style={{ textAlign: "center" }}> JSON Data By Api - </h1>
-      <div style={{ height: 400, width: "100%" }}>
-        <DataGrid
-          rows={posts}
-          columns={columns}
-          pageSizeOptions={[5, 10, 20, 50, 100]}
-        />
-      </div>
+      {getData ? (
+        <>
+          <h1 style={{ textAlign: "center" }}> JSON Data By Api - </h1>
+          <div style={{ height: 400, width: "100%" }}>
+            <DataGrid
+              rows={posts}
+              columns={columns}
+              pageSizeOptions={[5, 10, 20, 50, 100]}
+            />
+          </div>
 
-      <div>
-        <h1 style={{ textAlign: "center" }}> Another JSON Data - </h1>
-      </div>
+          <div>
+            <h1 style={{ textAlign: "center" }}> Another JSON Data - </h1>
+            <DisplayJSONDataCheckbox />
+          </div>
 
-      <Button
-        style={{ marginLeft: "50%", marginTop: "10%", padding: "7px" }}
-        variant="contained"
-        onClick={Logout}
-      >
-        Logout
-      </Button>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              marginTop: "2%",
+              marginLeft: "50%",
+            }}
+          >
+            <Button
+              style={{ padding: "5px", width: "10%" }}
+              variant="contained"
+              component={Link}
+              to="/home"
+            >
+              Home
+            </Button>
+
+            <Button
+              style={{ padding: "2px", width: "12%", marginLeft: "50px" }}
+              variant="contained"
+              onClick={Logout}
+            >
+              Logout
+            </Button>
+          </div>
+        </>
+      ) : (
+        <InvalidUser />
+      )}
     </>
   );
 };
 
 export default DisplayJSONDataByAPI;
+
+
+
+
+
+
 
 /*
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
@@ -132,4 +149,32 @@ console.log(listdata);
     );
   })}
 </div>;
+
+Extra alert -
+const alertLogout = () => {
+  alert("You have been logged out successfully...");
+};
+alertLogout();
+
+if (logout) {
+  navigate("/");
+  // const timeout = setTimeout(alertLogout, 5000)
+} else {
+  navigate("/api");
+}
+};
+
+// const nav1 = navigate('/api');
+// const nav2 = navigate('/');
+
+const userData = JSON.parse(localStorage.getItem("formData") || "{}");
+// console.log(userData);
+
+if (userData.name && userData.email && userData.phoneNo) {
+// return nav1;
+navigate("/api");
+} else {
+// return nav2;
+navigate("/");
+}
 */
